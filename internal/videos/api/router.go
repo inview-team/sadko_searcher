@@ -13,6 +13,6 @@ func Router(h Handlers) chi.Router {
 		AllowedHeaders:   []string{"Accept", "Content-Type"},
 		AllowCredentials: false,
 	}))
-	r.Get("/search", h.filterVectorID)
+	r.Post("/search", h.filterVectorID)
 	return r
 }

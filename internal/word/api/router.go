@@ -13,7 +13,7 @@ func Router(h Handlers) chi.Router {
 		AllowedHeaders:   []string{"Accept", "Content-Type"},
 		AllowCredentials: false,
 	}))
-	r.Get("/suggestions", h.getListWord)
+	r.Post("/suggestions", h.getListWord)
 	r.Post("/add-word", h.downloadWord)
 	return r
 }

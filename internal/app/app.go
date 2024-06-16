@@ -32,9 +32,9 @@ func (a *App) Run() {
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
 	wordRepo := repository.NewMetadataRepository(a.pgpool)
 	videoRepo := repository2.NewVideoRepository(a.pgpool)
-	metadataService := usecase.NewWordUseCase(wordRepo, *a.conf)
+	wordService := usecase.NewWordUseCase(wordRepo, *a.conf)
 	videoService := usecase2.NewVideoUseCase(videoRepo, *a.conf)
-	metadataHandlers := api.NewWordHandlers(&metadataService)
+	metadataHandlers := api.NewWordHandlers(&wordService)
 	videoHandlers := api2.NewVideoHandlers(&videoService)
 
 	r := api.Router(metadataHandlers)
