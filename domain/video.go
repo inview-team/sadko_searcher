@@ -17,5 +17,5 @@ type VideoSearch struct {
 }
 
 type QuerySearch struct {
-	Query string `json:"text"`
+	Query string `json:"query"`
 }

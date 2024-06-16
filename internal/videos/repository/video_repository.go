@@ -20,13 +20,15 @@ func (v videoRepository) FilterVectorID(video []string) ([]domain.VideoResponse,
 	var videoMeta []domain.VideoResponse
 	rows, err := v.db.Query(context.Background(), selectArray, pq.Array(video))
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return nil, err
 	}
 	defer rows.Close()
 	for rows.Next() {
 		var videoSchema domain.VideoResponse
 		if err := rows.Scan(&videoSchema.Description, &videoSchema.Url); err != nil {
-			log.Fatal(err)
+			log.Println(err)
+			return nil, err
 		}
 		videoMeta = append(videoMeta, videoSchema)
 	}
