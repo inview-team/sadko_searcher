@@ -10,13 +10,13 @@ import (
 	"src/domain"
 )
 
-type Payload struct {
+type SearchRequest struct {
 	SearchText string `json:"search_text"`
 }
 
 func VideoProcessorRequest(query string, endpoint string) ([]string, error) {
 	body := []byte(query)
-	searchText := Payload{SearchText: query}
+	searchText := SearchRequest{SearchText: query}
 	jsonPayload, err := json.Marshal(searchText)
 	if err != nil {
 		fmt.Println("Error marshaling JSON:", err)
