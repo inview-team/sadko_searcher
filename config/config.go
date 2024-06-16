@@ -3,8 +3,9 @@ package config
 import (
 	"errors"
 	"fmt"
-	"github.com/spf13/viper"
 	"os"
+
+	"github.com/spf13/viper"
 )
 
 type AppConfig struct {
@@ -70,14 +71,9 @@ func findConfigPath() string {
 		"local":  "config/config_sample.yml",
 		"custom": customPath,
 	}
-	defaultPath := configPaths["local"]
-
-	pathKey := os.Getenv("CONFIG")
-	if pathKey == "" {
-		return defaultPath
+	if configPaths["custom"] != "" {
+		return configPaths["custom"]
+	} else {
+		return configPaths["local"]
 	}
-	if path, ok := configPaths[pathKey]; ok {
-		return path
-	}
-	return defaultPath
 }
