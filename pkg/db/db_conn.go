@@ -3,10 +3,8 @@ package db
 import (
 	"context"
 	"fmt"
-	"os"
 	config2 "src/config"
 
-	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -30,14 +28,6 @@ func NewPsqlPoolConnection(conf config2.AppConfig) (*pgxpool.Pool, error) {
 		conf.Postgres.DbName,
 		conf.Postgres.SSLMode,
 	)
-	m, err := migrate.New(fmt.Sprintf("file:%s", os.Getenv("MIGRATIONS_PATH")), dbURL)
-	if err != nil {
-		return nil, err
-	}
-
-	if err = m.Up(); err != nil && err != migrate.ErrNoChange {
-		return nil, err
-	}
 	dbURL = fmt.Sprintf("%s&pool_max_conns=%d", dbURL, 5)
 	poolConfig, err := pgxpool.ParseConfig(dbURL)
 	if err != nil {
