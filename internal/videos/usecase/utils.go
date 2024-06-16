@@ -40,5 +40,4 @@ func VideoProcessorRequest(query string, endpoint string) ([]string, error) {
 		return nil, err
 	}
 	return videoProcessorResponse.VectorIDs, nil
-
 }

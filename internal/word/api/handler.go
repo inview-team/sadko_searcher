@@ -22,20 +22,24 @@ type wordHandlers struct {
 func (h *wordHandlers) downloadWord(w http.ResponseWriter, r *http.Request) {
 	log.Println(":Send request to download word.")
 
-	var word domain.Word
-	err := json.NewDecoder(r.Body).Decode(&word)
+	var words domain.Words
+	err := json.NewDecoder(r.Body).Decode(&words)
 	if err != nil {
 		errorResponse(400, utils.ErrorResponseStruct{Message: "name required field."}, w)
 		return
 	}
-	word.ID = uuid.New().String()
-	err = h.wordUseCase.Create(&word)
-	if err != nil {
-		errorResponse(400, utils.ErrorResponseStruct{Message: "word already exist."}, w)
-		return
+	for _, attr := range words.Words {
+		var word domain.Word
+		word.ID = uuid.New().String()
+		word.Text = attr
+		err = h.wordUseCase.Create(&word)
+		if err != nil {
+			errorResponse(400, utils.ErrorResponseStruct{Message: "word already exist."}, w)
+			return
+		}
 	}
 	log.Println("success download word")
-	wordResponse(word, w, 200)
+	wordResponse(words, w, 200)
 }
 
 func (h *wordHandlers) getListWord(w http.ResponseWriter, r *http.Request) {

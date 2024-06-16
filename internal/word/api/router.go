@@ -14,6 +14,6 @@ func Router(h Handlers) chi.Router {
 		AllowCredentials: false,
 	}))
 	r.Post("/suggestions", h.getListWord)
-	r.Post("/add-word", h.downloadWord)
+	r.Post("/add", h.downloadWord)
 	return r
 }
