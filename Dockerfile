@@ -2,7 +2,7 @@ FROM golang:1.21 AS builder
 ENV PROJECT_PATH=/app/searcher
 ENV CGO_ENABLED=0
 ENV GOOS=linux
-COPY . ${PROJECT_PATH}
+COPY searcher ${PROJECT_PATH}
 WORKDIR ${PROJECT_PATH}
 RUN go build cmd/searcher/main.go
 
