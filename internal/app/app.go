@@ -22,13 +22,10 @@ type App struct {
 }
 
 func NewApp(pgpool *pgxpool.Pool, config *config.AppConfig) *App {
-	/* Создание app сервиса */
 	return &App{pgpool: pgpool, conf: config}
 }
 
 func (a *App) Run() {
-	/* Метод запускающий инициализацию репозиториев, юзкейсов, роутов, клиента Minio */
-
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
 	wordRepo := repository.NewMetadataRepository(a.pgpool)
 	videoRepo := repository2.NewVideoRepository(a.pgpool)

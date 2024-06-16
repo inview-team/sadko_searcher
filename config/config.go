@@ -13,8 +13,9 @@ type AppConfig struct {
 }
 
 type ServerConfig struct {
-	Port string
-	Ssl  bool
+	Port                   string
+	Ssl                    bool
+	EndpointVideoProcessor string
 }
 
 type PostgresConfig struct {

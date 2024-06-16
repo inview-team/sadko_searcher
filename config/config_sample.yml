@@ -10,3 +10,4 @@ postgres:
 server:
   Port: ":30002"
   SSL: false
+  EndpointVideoProcessor: "http://example.com"

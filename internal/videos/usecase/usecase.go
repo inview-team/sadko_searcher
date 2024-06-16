@@ -8,7 +8,7 @@ import (
 )
 
 type UseCase interface {
-	FilterVectorID(video []string) ([]domain.VideoResponse, error)
+	FilterVectorID(query string) ([]domain.VideoResponse, error)
 }
 
 type videoUseCase struct {
@@ -16,8 +16,13 @@ type videoUseCase struct {
 	appConfig config.AppConfig
 }
 
-func (v videoUseCase) FilterVectorID(video []string) ([]domain.VideoResponse, error) {
-	videoMeta, err := v.videoRepo.FilterVectorID(video)
+func (v videoUseCase) FilterVectorID(query string) ([]domain.VideoResponse, error) {
+	vectorIDs, err := VideoProcessorRequest(query, v.appConfig.Server.EndpointVideoProcessor)
+	if err != nil {
+		log.Println(nil, err)
+		return nil, err
+	}
+	videoMeta, err := v.videoRepo.FilterVectorID(vectorIDs)
 	if err != nil {
 		log.Println(err)
 		return nil, err
