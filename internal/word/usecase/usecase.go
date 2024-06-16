@@ -5,6 +5,7 @@ import (
 	"src/config"
 	"src/domain"
 	"src/internal/word/repository"
+	"strings"
 )
 
 type UseCase interface {
@@ -30,7 +31,7 @@ func (w wordUseCase) Create(word *domain.Word) error {
 }
 
 func (w wordUseCase) All(word *domain.Word) ([]string, error) {
-	wordSlice, err := w.wordRepo.All(word.Text)
+	wordSlice, err := w.wordRepo.All(strings.ToLower(word.Text))
 	if err != nil {
 		log.Println(err)
 		return nil, err

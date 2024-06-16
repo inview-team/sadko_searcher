@@ -43,13 +43,22 @@ func (h *wordHandlers) getListWord(w http.ResponseWriter, r *http.Request) {
 	var word domain.Word
 	err := json.NewDecoder(r.Body).Decode(&word)
 	if err != nil {
-		errorResponse(400, utils.ErrorResponseStruct{"error"}, w)
+		errorResponse(400, utils.ErrorResponseStruct{Message: "error with decode body."}, w)
 		return
 	}
 	list, err := h.wordUseCase.All(&word)
 	if err != nil {
-		errorResponse(400, utils.ErrorResponseStruct{"error with query"}, w)
+		errorResponse(400, utils.ErrorResponseStruct{Message: "error with list query."}, w)
 		return
+	}
+	if len(list) == 0 {
+		word.ID = uuid.New().String()
+		err = h.wordUseCase.Create(&word)
+		if err != nil {
+			log.Println(err)
+			errorResponse(400, utils.ErrorResponseStruct{Message: "error with save word in suggestions"}, w)
+		}
+		list = append(list, word.Text)
 	}
 	response := map[string][]string{
 		"suggestion": list,

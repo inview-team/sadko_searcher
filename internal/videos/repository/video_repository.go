@@ -22,6 +22,7 @@ func (v videoRepository) FilterVectorID(video []string) ([]domain.VideoResponse,
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer rows.Close()
 	for rows.Next() {
 		var videoSchema domain.VideoResponse
 		if err := rows.Scan(&videoSchema.Description, &videoSchema.Url); err != nil {
