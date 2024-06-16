@@ -1,0 +1,12 @@
+postgres:
+  Host: "localhost"
+  Port: "5432"
+  User: "postgres"
+  Password: "12345678"
+  DbName: "lct"
+  SSLMode: "disable"
+  PoolMaxConns: 5
+
+server:
+  Port: ":30002"
+  SSL: false
