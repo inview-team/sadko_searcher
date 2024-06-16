@@ -2,7 +2,6 @@ package app
 
 import (
 	"context"
-	"github.com/go-chi/chi/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"log"
 	"net/http"
@@ -39,11 +38,9 @@ func (a *App) Run() {
 	videoHandlers := api2.NewVideoHandlers(&videoService)
 
 	r := api.Router(metadataHandlers)
-	r2 := api2.Router(videoHandlers)
+	proxyRouter := api2.Router(videoHandlers)
+	proxyRouter.Mount("/word", r)
 	log.Println(":Route initialization success.")
-	proxyRouter := chi.NewRouter()
-	proxyRouter.Mount("/", r)
-	proxyRouter.Mount("/search", r2)
 	go func() {
 		err := http.ListenAndServe(a.conf.Server.Port, proxyRouter)
 		if err != nil {
